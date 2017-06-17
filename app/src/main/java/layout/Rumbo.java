@@ -353,21 +353,27 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap=googleMap;
+        dibujarMapa();
+
+
+
+
+    }
+
+    public void dibujarMapa(){
         LatLng siguientePoi=new LatLng(datosSiguientePoi.getLatitud(),datosSiguientePoi.getLongitud());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(siguientePoi,14));
-        mMap.addMarker(new MarkerOptions().title(datosSiguientePoi.getNombre()).snippet("POI 1").position(siguientePoi));
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().title(datosSiguientePoi.getNombre()).snippet(" ").position(siguientePoi));
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(),LOCATION_PERMISSIONS,LOCATOON_PERMISSIONS_REQUEST);
+            ActivityCompat.requestPermissions(getActivity(),LOCATION_PERMISSIONS,LOCATION_PERMISSIONS_REQUEST);
             mMap.setMyLocationEnabled(true);
-           // return;
+            // return;
         } else {
             mMap.setMyLocationEnabled(true);
         }
-
-
-
     }
 
 
@@ -383,7 +389,7 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
     final String[] LOCATION_PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                                         Manifest.permission.ACCESS_COARSE_LOCATION};
-    static final int LOCATOON_PERMISSIONS_REQUEST=0;
+    static final int LOCATION_PERMISSIONS_REQUEST=0;
 
     private void obtenerLocalizacionActual(){
 
@@ -397,13 +403,12 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
                     //return;
 
-                    ActivityCompat.requestPermissions(getActivity(), LOCATION_PERMISSIONS, LOCATOON_PERMISSIONS_REQUEST);
+                    ActivityCompat.requestPermissions(getActivity(), LOCATION_PERMISSIONS, LOCATION_PERMISSIONS_REQUEST);
                 }
 
                 //Obtenemos la última posición conocida
                 Location loc = locManager.getLastKnownLocation(provider);
                 if (loc != null) {
-                    // Toast.makeText(getActivity(), "Ultima posicion conocida\n" + "Latitud: " + String.valueOf(loc.getLatitude()) + "\n" + "Longitud: " + String.valueOf(loc.getLongitude()) + "\n", Toast.LENGTH_LONG).show();
                     compass.setMiLatitudActual(loc.getLatitude());
                     compass.setMiLongitudActual(loc.getLongitude());
 
@@ -419,7 +424,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
                                 int metros = new Integer(distancia.substring(0, distancia.indexOf(" ")));
                                 if (metros <= 50) {
                                     Toast.makeText(getActivity(), " Has llegado al punto! ", Toast.LENGTH_LONG).show();
-                                    //enviarNotificacion(); TODO: Mejora
 
                                     imgMeta.setVisibility(View.VISIBLE);
                                     btnSiguiente.setText(datosSiguientePoi.getPregunta());
@@ -434,7 +438,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
                                 btnSiguiente.setVisibility(View.INVISIBLE);
                             }
 
-                            //   Toast.makeText(getActivity(), "Cambio Ultima posicion :\n" + "Latitud: " + String.valueOf(location.getLatitude()) + "\n" + "Longitud: " + String.valueOf(location.getLongitude()) + "\n", Toast.LENGTH_LONG).show();
                             compass.setMiLatitudActual(location.getLatitude());
                             compass.setMiLongitudActual(location.getLongitude());
                         }
@@ -464,30 +467,7 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
     public static final int NOTIF_ALERTA_ID = 1;
     public boolean notificado=false;
-    private void enviarNotificacion(){
-/* TODO: Rematar las notificaciones
-        if (!notificado) {
-
-            NotificationCompat.Builder notificabarraestado = new NotificationCompat.Builder(getActivity());
-            notificabarraestado.setContentTitle("Punto alcanzado!");
-            notificabarraestado.setContentText("Has alcanzado el punto de la Gymkana");
-            notificabarraestado.setSubText("Accede a la aplicación para contestar las preguntas.");
-            notificabarraestado.setSmallIcon(R.drawable.logo);
-            notificabarraestado.setLargeIcon((((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.logo)).getBitmap()));
-            notificabarraestado.setContentInfo("");
-            notificabarraestado.setTicker("MENSAJE");
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            notificabarraestado.setSound(uri);
-
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            PendingIntent contIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
-            notificabarraestado.setContentIntent(contIntent);
-            NotificationManager mNotificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-            mNotificationManager.notify(NOTIF_ALERTA_ID, notificabarraestado.build());
-            notificado=true;
-        }*/
-    }
-
+   
 
     private void obtenerLocalizacionObjetivo(Integer idRuta, Integer ordenSiguientePoi) {
         Log.i(MainActivity.TAG, "obtener localizacion objetivo: idRuta=" + idRuta + " ordenSgtePoi="+ordenSiguientePoi);
@@ -539,8 +519,8 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
             ordenSiguiente++;
             obtenerLocalizacionObjetivo(datosSiguientePoi.getId_ruta(),ordenSiguiente );
             obtenerPoisYaAlcanzados(datosSiguientePoi.getId_ruta(),0);
-            //webView.setVisibility(View.INVISIBLE);
             btnSiguiente.setVisibility(View.INVISIBLE);
+            dibujarMapa();
 
         }else{
             //Enhorabuena!
@@ -660,8 +640,7 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
         super.onDestroyView();
         Log.d(MainActivity.TAG,"on destroy view");
-       // Fragment f = (Fragment) getFragmentManager().findFragmentById(R.id.rumbo);
-      //  Fragment f =getFragmentManager().findFragmentById(R.id.rumbo);
+
         Fragment f=getActivity().getSupportFragmentManager().findFragmentById(R.id.rumbo);
         if (f != null) {
             Log.d(MainActivity.TAG, "on destroy view 1");
@@ -693,7 +672,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         }
 
 
-            //MapFragment mapFragment= (MapFragment) getFragmentManager().findFragmentById(R.id.map);
 
 
 
@@ -738,7 +716,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
                 bitmap = BitmapFactory.decodeStream(stream, null, bmOptions);
                 if (stream!=null) {
                     stream.close();
-                    //bitmap = BitmapFactory.decodeResource(rootView.getResources(),R.drawable.logo);
                 }
             } catch (IOException e1) {
                 bitmap = BitmapFactory.decodeResource(rootView.getResources(),R.drawable.logo);
