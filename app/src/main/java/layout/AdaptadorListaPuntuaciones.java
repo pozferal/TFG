@@ -13,9 +13,7 @@ import com.alvaro.tfg.gymkanaturistica.db.DatosRuta;
 
 import java.util.List;
 
-/**
- * Created by Alvaro on 20/05/2017.
- */
+
 
 public class AdaptadorListaPuntuaciones extends ArrayAdapter {
 

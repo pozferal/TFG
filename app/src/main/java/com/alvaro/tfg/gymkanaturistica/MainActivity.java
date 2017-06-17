@@ -1,22 +1,15 @@
 package com.alvaro.tfg.gymkanaturistica;
 
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,10 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.alvaro.tfg.gymkanaturistica.db.DatosRuta;
 import com.alvaro.tfg.gymkanaturistica.db.GymkanaDB;
 import com.alvaro.tfg.gymkanaturistica.db.OperacionesBD;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import layout.AcercaDe;
 import layout.Descargar;
@@ -123,18 +114,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-     /*   if ( Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(
-               this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-
-        } else {
-            solicitarPermiso(android.Manifest.permission.ACCESS_FINE_LOCATION, "Sin el permiso"+
-                            " de ubicación no podemos conocer tu posición para guiarte por la gymkana.",
-                    1, this);
-        }*/
-
     }
 
     public static void solicitarPermiso(final String permiso, String justificacion,
@@ -171,8 +150,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -191,20 +168,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
- /*   @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -253,9 +217,6 @@ public class MainActivity extends AppCompatActivity
                  fragmentoSeleccionar = new Seleccionar();
                 getSupportFragmentManager().beginTransaction().replace(R.id.contenidoFragmentos, fragmentoSeleccionar).commit();
             }
-
-
-
 
 
         }

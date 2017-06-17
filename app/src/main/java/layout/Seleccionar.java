@@ -3,7 +3,6 @@ package layout;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,18 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.alvaro.tfg.gymkanaturistica.MainActivity;
 import com.alvaro.tfg.gymkanaturistica.R;
 import com.alvaro.tfg.gymkanaturistica.db.DatosRuta;
 import com.alvaro.tfg.gymkanaturistica.db.OperacionesBD;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +58,6 @@ public class Seleccionar extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Seleccionar.
      */
-    // TODO: Rename and change types and number of parameters
     public static Seleccionar newInstance(String param1, String param2) {
         Seleccionar fragment = new Seleccionar();
         Bundle args = new Bundle();
@@ -123,16 +117,10 @@ public class Seleccionar extends Fragment {
                            .setPositiveButton(android.R.string.ok, new
                                    DialogInterface.OnClickListener() {
                                        public void onClick(DialogInterface dialog, int id) {
-                                         //  Toast.makeText(getActivity(), "activar la gymkana" + identificador, Toast.LENGTH_SHORT).show();
                                            setGymkanaActiva(identificador);
 
-
-                                           //refrescar el fragment
-
                                            FragmentTransaction tr = getFragmentManager().beginTransaction();
-                                          /* Seleccionar fragmentoSeleccionar=new Seleccionar();
-                                           tr.replace(R.id.contenidoFragmentos,fragmentoSeleccionar);
-                                          */Rumbo fragmentoRumbo=new Rumbo();
+                                           Rumbo fragmentoRumbo=new Rumbo();
                                            tr.replace(R.id.contenidoFragmentos,fragmentoRumbo);
 
                                             tr.commit();

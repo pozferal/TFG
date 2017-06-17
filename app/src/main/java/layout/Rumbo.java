@@ -2,31 +2,23 @@ package layout;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +37,6 @@ import android.widget.Toast;
 import com.alvaro.tfg.gymkanaturistica.MainActivity;
 import com.alvaro.tfg.gymkanaturistica.R;
 import com.alvaro.tfg.gymkanaturistica.db.DatosPoi;
-import com.alvaro.tfg.gymkanaturistica.db.DatosRespuesta;
 import com.alvaro.tfg.gymkanaturistica.db.DatosRuta;
 import com.alvaro.tfg.gymkanaturistica.db.OperacionesBD;
 import com.alvaro.tfg.gymkanaturistica.util.Compass;
@@ -65,7 +56,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -153,11 +143,8 @@ public class Rumbo extends Fragment implements TabHost.OnTabChangeListener,OnMap
 
 
 
-
-
         SensorManager mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-            // Success! There's a magnetometer.
             brujulaDisponible=true;
         }
         else {
@@ -169,10 +156,7 @@ public class Rumbo extends Fragment implements TabHost.OnTabChangeListener,OnMap
 
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_rumbo, container, false);
-
-
             TabHost pestanas = (TabHost) rootView.findViewById(R.id.tabhost);
-
 
             pestanas.setup();
             TabHost.TabSpec spec = pestanas.newTabSpec("Rumbo"); //TODO: sacar esto a parametros
@@ -193,9 +177,6 @@ public class Rumbo extends Fragment implements TabHost.OnTabChangeListener,OnMap
             pestanas.addTab(spec);
 
 
-
-
-
         }
 
         TabWidget tw = (TabWidget)rootView.findViewById(android.R.id.tabs);
@@ -204,11 +185,9 @@ public class Rumbo extends Fragment implements TabHost.OnTabChangeListener,OnMap
             TextView tv = (TextView) tabView.findViewById(android.R.id.title);
             tv.setTextSize(10);
         }
-        //return inflater.inflate(R.layout.fragment_rumbo, container, false);
         OperacionesBD datos = OperacionesBD.obtenerInstancia(getActivity().getApplicationContext());
 
          datosRuta = datos.getRutaActiva();
-
 
         TextView txtGymActiva = (TextView) rootView.findViewById(R.id.txtGymActiva);
         txtGymActiva.setText(datosRuta.getDescripcion_ruta());
@@ -354,10 +333,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
     public void onMapReady(GoogleMap googleMap) {
         mMap=googleMap;
         dibujarMapa();
-
-
-
-
     }
 
     public void dibujarMapa(){
@@ -384,9 +359,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
 
 
-
-
-
     final String[] LOCATION_PERMISSIONS = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                                                         Manifest.permission.ACCESS_COARSE_LOCATION};
     static final int LOCATION_PERMISSIONS_REQUEST=0;
@@ -401,7 +373,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
                         ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                    //return;
 
                     ActivityCompat.requestPermissions(getActivity(), LOCATION_PERMISSIONS, LOCATION_PERMISSIONS_REQUEST);
                 }
@@ -463,9 +434,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
 
     DatosPoi datosSiguientePoi=null;
-
-
-    public static final int NOTIF_ALERTA_ID = 1;
     public boolean notificado=false;
    
 
@@ -474,7 +442,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         if (ordenSiguientePoi!=0) {
 
             GetImageTask task = new GetImageTask();
-
 
             OperacionesBD datos = OperacionesBD.obtenerInstancia(getActivity().getApplicationContext());
              datosSiguientePoi = datos.siguientePoi(idRuta, ordenSiguientePoi);
@@ -490,7 +457,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         List<String> listaProviders = locManager.getAllProviders();
         if (listaProviders.contains(LocationManager.GPS_PROVIDER))     {
             Log.d("EjemploLocalizacion", "Lista providers contiene GPS.");
-            //Si no hay red
             if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 Log.d("EjemploLocalizacion", "GPS activado.");
                 resultado=LocationManager.GPS_PROVIDER;
@@ -506,7 +472,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         }
         return resultado;
     }
-
 
 
 
@@ -534,7 +499,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
             mostrarUIRutaCompletada();
         }
     }
-
 
 
     public void mostrarUIRutaNoCompletada(){
@@ -581,8 +545,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         TextView btnNoBrujula=(TextView)rootView.findViewById(R.id.textNoBrujula);
         btnNoBrujula.setVisibility(View.INVISIBLE);
     }
-
-
 
 
     @Override
@@ -673,19 +635,12 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
 
 
 
-
-
-
-
     }
 
 
 
 
-
-
     public class GetImageTask extends AsyncTask<String, Void, Bitmap> {
-
 
 
              @Override
@@ -748,23 +703,17 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         }
     }
 
-
     public void obtenerPoisYaAlcanzados(Integer idRuta, Integer rutaTerminada){
         final  RecyclerView recView;
 
-
-
-        OperacionesBD db = OperacionesBD.obtenerInstancia(getActivity().getApplicationContext());
+     OperacionesBD db = OperacionesBD.obtenerInstancia(getActivity().getApplicationContext());
         final List<DatosPoi> datosPois= db.obtenerPoisYaAlcanzados(idRuta, rutaTerminada);
         ArrayList<ObjetoMenu> datos=new ArrayList<ObjetoMenu>();
         ObjetoMenu objMenu=null;
         int puntosAcumulados=0;
         for (int i=0; i<datosPois.size();i++) {
 
-
             puntosAcumulados=puntosAcumulados+datosPois.get(i).getPuntos().intValue();
-
-
             objMenu=new ObjetoMenu(datosPois.get(i).getNombre(),datosPois.get(i).getPuntos());
             datos.add(objMenu);
         }
@@ -795,7 +744,6 @@ Log.i(MainActivity.TAG, "respuestas.size ......"+datosSiguientePoi.getRespuestas
         recView.setLayoutManager(new GridLayoutManager(rootView.getContext(), 2));
 
     }
-
 
 
     public void  resetGymkana(Integer idRuta){
@@ -862,7 +810,6 @@ android.app.AlertDialog dialogo;
     }
 
 
-
     public boolean conectadoAInternet() throws InterruptedException, IOException
     {
         boolean resultado=false;
@@ -898,7 +845,6 @@ public Bitmap downloadImage(String url) {
     }
     return imagen;
 }
-
 
 
 }

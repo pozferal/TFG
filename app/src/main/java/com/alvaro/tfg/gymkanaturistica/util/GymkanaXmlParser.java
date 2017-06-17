@@ -14,20 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-
-/**
- * Created by Alvaro on 27/04/2017.
- */
-
 public class GymkanaXmlParser {
 
-
     private static final String ns = null;
-
-
 
     public static class Ruta {
         public final String nombre;
@@ -103,7 +92,6 @@ public class GymkanaXmlParser {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
             parser.nextTag();
-            Log.i(MainActivity.TAG, "Vamos a parsear2");
             return readRutas(parser);
 
 
@@ -164,8 +152,6 @@ public class GymkanaXmlParser {
         }
         return new Ruta(nombre, tipo, duracion, distancia, identificacion, pois);
     }
-
-
 
 
 
@@ -378,9 +364,7 @@ public class GymkanaXmlParser {
         return result;
     }
 
-    // Skips TAGs the parser isn't interested in. Uses depth to handle nested TAGs. i.e.,
-    // if the next TAG after a START_TAG isn't a matching END_TAG, it keeps going until it
-    // finds the matching END_TAG (as indicated by the value of "depth" being 0).
+
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
         if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();
@@ -401,59 +385,6 @@ public class GymkanaXmlParser {
 
 
 
-    // Processes link TAGs in the feed.
- /*   private String readLink(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String link = "";
-        parser.require(XmlPullParser.START_TAG, ns, "link");
-        String TAG = parser.getName();
-        String relType = parser.getAttributeValue(null, "rel");
-        if (TAG.equals("link")) {
-            if (relType.equals("alternate")) {
-                link = parser.getAttributeValue(null, "href");
-                parser.nextTag();
-            }
-        }
-        parser.require(XmlPullParser.END_TAG, ns, "link");
-        return link;
-    }*/
 
 
-
- /*   private List<Poi> readPois(XmlPullParser parser) throws XmlPullParserException, IOException {
-        List<Poi> pois=new ArrayList<Poi>();
-
-        parser.require(XmlPullParser.START_TAG,ns,"Ruta");
-
-        while (parser.next()!=XmlPullParser.END_TAG){
-
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equals("poi")) {
-                pois.add(readPoi(parser));
-            }else{
-                skip(parser);
-            }
-
-        }
-        return pois;
-    }*/
-
-/*    public List<Ruta> readRutas(InputStream in) throws XmlPullParserException, IOException {
-        try {
-            Log.i(MainActivity.TAG, "Vamos a parsear las rutas");
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(in, null);
-            parser.nextTag();
-            Log.i(MainActivity.TAG, "Vamos a parsear2");
-            //return readRutas(parser);
-            return readRutas(parser);
-
-
-        } finally {
-            in.close();
-        }
-    }*/
 }

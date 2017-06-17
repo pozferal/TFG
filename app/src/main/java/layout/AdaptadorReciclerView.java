@@ -11,9 +11,6 @@ import com.alvaro.tfg.gymkanaturistica.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by Alvaro on 10/05/2017.
- */
 
 public class AdaptadorReciclerView extends
         RecyclerView.Adapter<AdaptadorReciclerView.ReciclerViewHolder>

@@ -1,19 +1,12 @@
 package com.alvaro.tfg.gymkanaturistica.util;
 
-/**
- * Created by Alvaro on 26/04/2017.
- */
+
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -22,11 +15,9 @@ import android.widget.ImageView;
 import com.alvaro.tfg.gymkanaturistica.MainActivity;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import layout.Rumbo;
 
-import static android.content.Context.LOCATION_SERVICE;
 
 public class Compass implements SensorEventListener {
 
@@ -44,7 +35,7 @@ public class Compass implements SensorEventListener {
     public ImageView arrowViewNorte = null;
     private double miLatitudActual = 0;
     private double miLongitudActual = 0;
-    private double LatitudDondeIr = 0;    //coordenadas de la estatua del conde ansurez
+    private double LatitudDondeIr = 0;
     private double LoingitudDondeIr =0 ;
 
 
@@ -66,7 +57,6 @@ public class Compass implements SensorEventListener {
 
 
 
-
     public double getLatitudDondeIr() {
         return LatitudDondeIr;
     }
@@ -82,7 +72,6 @@ public class Compass implements SensorEventListener {
     public void setLoingitudDondeIr(double loingitudDondeIr) {
         LoingitudDondeIr = loingitudDondeIr;
     }
-
 
 
 
@@ -127,7 +116,6 @@ public class Compass implements SensorEventListener {
 
     private void adjustArrow() {
         if (arrowView == null) {
-            Log.i(MainActivity.TAG, "arrow view is not set");
             return;
         }else {
 
@@ -140,20 +128,6 @@ public class Compass implements SensorEventListener {
 
             if (!Rumbo.getDatosRuta().isCompletada()) {
                 arrowView.startAnimation(an);
-
-                /* Probar esto para el android 4.4.4
-                 // Load the ImageView that will host the animation and
- // set its background to our AnimationDrawable XML resource.
- ImageView img = (ImageView)findViewById(R.id.spinning_wheel_image);
- img.setBackgroundResource(R.drawable.spin_animation);
-
- // Get the background, which has been compiled to an AnimationDrawable object.
- AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
-
- // Start the animation (looped playback by default).
- frameAnimation.start();
-                 */
-
 
             }
         }

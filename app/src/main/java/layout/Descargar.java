@@ -344,8 +344,8 @@ public class Descargar extends Fragment {
     private InputStream downloadUrl(String urlString) throws IOException {
         java.net.URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(15000 /* milliseconds */);
-        conn.setConnectTimeout(18000 /* milliseconds */);
+        conn.setReadTimeout(15000 /* milisegundos */);
+        conn.setConnectTimeout(18000 /* milisegundos */);
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         conn.connect();
